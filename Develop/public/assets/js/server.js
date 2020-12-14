@@ -6,13 +6,13 @@ const app = express();
 const PORT = 3000;
 
 app.get("/notes", (req, res) => {
-    res.sendFile("C:/Users/phill/Desktop/coding-uofm/homework/homework-11/Note-Taker/Develop/public/notes.html");
+    res.sendFile(path.join(__dirname, "../../../public/notes.html"));
 });
 
 app.get("*", (req, res) => {
-    res.sendFile("C:/Users/phill/Desktop/coding-uofm/homework/homework-11/Note-Taker/Develop/public/index.html");
-})
+    res.sendFile(path.join(__dirname, "../../../public/index.html"));
+});
 
 app.listen(PORT, () => {
     console.log("Server is running at http://localhost:" + PORT);
-})
+});
