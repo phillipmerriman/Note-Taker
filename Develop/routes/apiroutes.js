@@ -10,7 +10,7 @@ router.get("/notes", (req, res) => {
     });
 });
 
-router.post("/notes", async function(req, res) {
+router.post("/notes", async (req, res) => {
     const prevDb = await fs.readFile(path.join(__dirname, "../db/db.json"), "UTF-8", (err, dbres) => {
         if (err) throw err;
         console.log(dbres);
