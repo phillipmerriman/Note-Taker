@@ -8,7 +8,6 @@ const { v4: uuidv4 } = require('uuid');
 router.get("/notes", (req, res) => {
   fs.readFile(path.join(__dirname, "../db/db.json"), "UTF-8", (err, dbres) => {
     if (err) throw err;
-    // console.log("dbres ln 9: " + dbres);
     return res.json(JSON.parse(dbres));
   });
 });
@@ -45,6 +44,25 @@ router.post("/notes", (req, res) => {
             if (err) throw err;
         });
 
+});
+
+router.delete("/notes/:id", (req, res) => {
+
+  console.log(req.params.id);
+  const noteId = req.params.id;
+  fs.readFile(path.join(__dirname, "../db/db.json"), (err, response) => {
+    if (err) throw err;
+    const resp = JSON.parse(response);
+    // console.log(resp[0].noteId);
+    for(let i = 0; i < resp.length; i++) {
+      console.log("resp[i]: " + JSON.stringify(resp[i]));
+      console.log("resp[i].id: " + resp[i].id);
+      console.log("noteId: " + noteId);
+      if (resp[i].id === noteId) {
+        resp.splice(resp[i], 1);
+      }
+    }
+  });
 });
 
 module.exports = router;
