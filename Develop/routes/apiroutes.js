@@ -1,32 +1,42 @@
 const router = require("express").Router();
 const fs = require("fs");
 const path = require("path");
+const dataBase = require("../db/db.json");
 
 router.get("/notes", (req, res) => {
   fs.readFile(path.join(__dirname, "../db/db.json"), "UTF-8", (err, dbres) => {
     if (err) throw err;
-    console.log(dbres);
+    // console.log("dbres ln 9: " + dbres);
     return res.json(JSON.parse(dbres));
   });
 });
 
-router.post("/notes", async (req, res) => {
-  const prevDb = await fs.readFile(path.join(__dirname, "../db/db.json"), "UTF-8", (err, dbres) => {
-      if (err) throw err;
-      console.log(dbres);
-      return dbres;
-    }
-  );
-  console.log(JSON.parse(prevDb));
+// router.get("/notes/:noteId", (req, res) => {
+//   console.log(req.params.noteId)
+// })
 
-  JSON.parse(prevDb).push(JSON.stringify(req.body));
-  fs.writeFile(path.join(__dirname, "../db/db.json"), prevDb, "UTF-8", (err, response) => {
-      if (err) throw err;
-      console.log(JSON.stringify(req.body));
-      console.log(response);
-      return res.json(prevDb);
+
+
+//we're getting the users notes above. now down here we need to add it (req.body) to the db.json.
+router.post("/notes", (req, res) => {
+    fs.readFile(path.join(__dirname, "../db/db.json"), "UTF-8", (err, dbres) => {
+        if (err) throw err;
+        console.log("dbres ln 19: " + dbres);
+        return dbres;
     }
-  );
+    );
+
+    console.log("POST", JSON.stringify(req.body), req.body);
+    console.log(dataBase);
+    
+    const updatedDb = [...dataBase, req.body];
+    
+    console.log("updatedDb: " + JSON.stringify(updatedDb));
+
+    fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(updatedDb), (err, response) => {
+            if (err) throw err;
+        });
+
 });
 
 module.exports = router;
