@@ -22,6 +22,8 @@ router.post("/notes", (req, res) => {
     fs.readFile(path.join(__dirname, "../db/db.json"), "UTF-8", (err, dbres) => {
         if (err) throw err;
         console.log("dbres ln 19: " + dbres);
+        //ends the response so the promise in index.js → handleNoteSave() can execute
+        res.send();
         return dbres;
     }
     );
