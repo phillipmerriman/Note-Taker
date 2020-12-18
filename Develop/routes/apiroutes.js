@@ -42,7 +42,6 @@ router.delete("/notes/:id", (req, res) => {
 
     for (let i = 0; i < resp.length; i++) {
       if (resp[i].id === noteId) {
-        console.log(resp[i]);
         resp.splice(i, 1);
 
         return res.send(
