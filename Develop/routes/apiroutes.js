@@ -53,13 +53,18 @@ router.delete("/notes/:id", (req, res) => {
   fs.readFile(path.join(__dirname, "../db/db.json"), (err, response) => {
     if (err) throw err;
     const resp = JSON.parse(response);
-    // console.log(resp[0].noteId);
+    
     for(let i = 0; i < resp.length; i++) {
       console.log("resp[i]: " + JSON.stringify(resp[i]));
       console.log("resp[i].id: " + resp[i].id);
       console.log("noteId: " + noteId);
       if (resp[i].id === noteId) {
+        console.log("match");
         resp.splice(resp[i], 1);
+        console.log(resp);
+        return res.send(fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(resp), (err, response) => {
+          if (err) throw err;
+      })); 
       }
     }
   });
